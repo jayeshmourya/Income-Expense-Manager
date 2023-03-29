@@ -1,21 +1,7 @@
-// var ctx = document.getElementById("myChart").getContext("2d");
 const renderChart = (data, labels) => {
     var ctx = document.getElementById("myChart").getContext("2d");
-    const getRandomType = () => {
-        const types = [
-          "bar",
-          "horizontalBar",
-          "pie",
-          "line",
-          "radar",
-          "doughnut",
-          "polarArea",
-        ];
-        return types[Math.floor(Math.random() * types.length)];
-      };
-        const type=getRandomType();      
     var myChart = new Chart(ctx, {
-      type: type,
+      type: "scatter",
       data: {
         labels: labels,
         datasets: [
@@ -46,7 +32,7 @@ const renderChart = (data, labels) => {
       options: {
         title: {
           display: true,
-          text: "Expenses per category",
+          text: "Incomes per category",
         },
       },
     });
@@ -54,11 +40,11 @@ const renderChart = (data, labels) => {
   
   const getChartData = () => {
     console.log("fetching");
-    fetch("/expense_category_summary")
+    fetch("/income/income_source_summary")
       .then((res) => res.json())
       .then((results) => {
         console.log("results", results);
-        const category_data = results.expense_category_data;
+        const category_data = results.income_source_data;
         const [labels, data] = [
           Object.keys(category_data),
           Object.values(category_data),
@@ -70,6 +56,3 @@ const renderChart = (data, labels) => {
   
   document.onload = getChartData();
   
-
-// fetch("/expense_category_summary")
-// const category_data = results.expense_category_data;

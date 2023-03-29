@@ -30,7 +30,11 @@ def index(request):
     paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
-    currency = UserPreference.objects.get(user=request.user).currency
+    if UserPreference.objects.filter(user = request.user).exists():
+        currency = UserPreference.objects.get(user = request.user).currency
+    else:
+        currency = 'INR - Indian Rupee'
+    # currency = UserPreference.objects.get(user=request.user).currency
     context = {
         'expenses': expenses,
         'page_obj': page_obj,
@@ -115,15 +119,21 @@ def delete_expense(request, id):
 
 
 def expense_category_summary(request):
+    
     todays_date = datetime.date.today()
     six_months_ago = todays_date-datetime.timedelta(days=30*6)
     expenses = Expense.objects.filter(owner=request.user,
                                       date__gte=six_months_ago, date__lte=todays_date)
+    
+    
+    
     finalrep = {}
 
     def get_category(expense):
+        
         return expense.category
     category_list = list(set(map(get_category, expenses)))
+    
 
     def get_expense_category_amount(category):
         amount = 0
@@ -139,6 +149,73 @@ def expense_category_summary(request):
 
     return JsonResponse({'expense_category_data': finalrep}, safe=False)
 
+def all_expense(request):
+    
+    today_date=datetime.date.today()
+    month_ago=today_date-datetime.timedelta(30)
+    month_expense=Expense.objects.filter(owner=request.user,date__gte=month_ago,date__lte=today_date)
+    dates=[]
+    amounts=[]
+    for obj in month_expense:
+        date=obj.date
+        amount=obj.amount
+        dates.append(str(date))
+        amounts.append(amount)
+    month_dict=dict(zip(dates,amounts))
+    
+
+    import calendar
+    month_list=list(calendar.month_name)
+    A=[]
+    today_date=datetime.date.today()
+    year_ago=today_date-datetime.timedelta(365)
+    year_expense=Expense.objects.filter(owner=request.user,date__gte=year_ago,date__lte=today_date)
+    for i in range(1,len(month_list)):
+        amount_month=0
+        for object in year_expense:
+            b=0
+            if object.date.month==i:
+                b=object.amount
+                amount_month+=b
+        A.append(amount_month)
+
+    year_dict=dict(zip(month_list[1:13],A))
+
+    today_date=datetime.date.today()
+    week=today_date-datetime.timedelta(7)
+    week_expense=Expense.objects.filter(owner=request.user,date__gte=week,date__lte=today_date)
+    
+    import calendar
+    day_list=list(calendar.day_name)
+    B=[]
+    for i in range(0,len(day_list)):
+        amount_month=0
+        for object in week_expense:
+            b=0
+            if object.date.weekday()==i:
+                b=object.amount
+                amount_month+=b
+        B.append(amount_month)
+        week_dict=dict(zip(day_list,B))
+
+    return JsonResponse({'month_dict':month_dict,'year_dict':year_dict,'week_dict':week_dict})
 
 def stats_view(request):
     return render(request, 'expenses/stats.html')
+
+
+
+def all_expense_stats(request):
+
+    return render(request, 'expenses/all_expense_stats.html')
+
+def all_expense_stats_month(request):
+    
+    return render(request, 'expenses/all_expense_stats_month.html')
+
+def all_expense_stats_week(request):
+    
+    return render(request, 'expenses/all_expense_stats_week.html')
+def all_expense_stats_year(request):
+    
+    return render(request, 'expenses/all_expense_stats_year.html')

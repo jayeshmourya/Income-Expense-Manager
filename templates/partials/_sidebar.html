@@ -1,4 +1,21 @@
 {% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+{% comment %} body {background-color: powderblue;}
+h1   {color: blue;}
+p    {color: red;} {% endcomment %}
+
+.bg-light {
+  background-color: #e9bea1 !important;
+}
+</style>
+</head>
+
+
+
+
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
   <div class="sidebar-sticky">
     <ul class="nav flex-column">
@@ -34,14 +51,19 @@
     </h6>
     <ul class="nav flex-column mb-2">
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'stats'%}">
+        <a class="nav-link" href={% url 'stats'%}>
           Expenses Summary
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href={% url 'income_stats' %}>
           <span data-feather="file-text"></span>
           Income Summary
+        </a>
+      </li><li class="nav-item">
+        <a class="nav-link" href={% url 'all_expense_stats' %}>
+          <span data-feather="file-text"></span>
+          all_expense
         </a>
       </li>
     </ul>

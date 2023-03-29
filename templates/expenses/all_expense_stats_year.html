@@ -10,7 +10,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="">Expenses Summary</a>
+            <a href="">All Expenses Summary</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
            Summary
@@ -24,6 +24,17 @@
     </div>
 
   </div>
+<div class="row">
+  <div class="col-md-4">
+    <a href={% url 'all_expense_stats_week' %} class="btn btn-primary">1 Week</a>
+  </div>
+  <div class="col-md-4">
+    <a href="{% url 'all_expense_stats_month' %}" class="btn btn-primary">1 Month</a>
+  </div>
+  <div class="col-md-4">
+    <a href="{% url 'all_expense_stats_year' %}" class="btn btn-primary">1 Year</a>
+  </div>
+</div>
 
  <div class="row">
 <div class="col-md-8">
@@ -32,9 +43,16 @@
     </div>
 
  </div>
-</div>
 
-<script src='{% static 'js/stats.js' %}'></script>
+
+ <div class="col-md-8">
+  <canvas id="myChart1" style="width:400%;max-width:3000px"></canvas>
+     </div><div class="col-md-4">
+     </div>
+    </div>
+
+
+<script src='{% static 'js/allyear.js' %}'></script>
 </script>
 
 {% endblock content %}

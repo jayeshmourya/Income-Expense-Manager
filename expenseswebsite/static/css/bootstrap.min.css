@@ -68,6 +68,7 @@ section {
   display: block;
 }
 body {
+  
   margin: 0;
   font-family: "Segoe UI", "Source Sans Pro", Calibri, Candara, Arial,
     sans-serif;
@@ -403,7 +404,7 @@ small,
 mark,
 .mark {
   padding: 0.2em;
-  background-color: #fcf8e3;
+  background-color: #e9e3fc;
 }
 .list-unstyled {
   padding-left: 0;
@@ -1870,7 +1871,7 @@ pre code {
 }
 .table-hover tbody tr:hover {
   color: #373a3c;
-  background-color: rgba(0, 0, 0, 0.075);
+  background-color: rgba(233, 14, 40, 0.075);
 }
 .table-primary,
 .table-primary > th,

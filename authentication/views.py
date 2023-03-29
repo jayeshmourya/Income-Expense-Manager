@@ -10,7 +10,7 @@ from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -18,8 +18,9 @@ from django.template.loader import render_to_string
 from .utils import account_activation_token
 from django.urls import reverse
 from django.contrib import auth
-
+import os
 # Create your views here.
+
 
 
 class EmailValidationView(View):
@@ -85,11 +86,11 @@ class RegistrationView(View):
                 email_subject = 'Activate your account'
 
                 activate_url = 'http://'+current_site.domain+link
-
+                email_id=os.environ.get('DEFAULT_FROM_EMAIL')
                 email = EmailMessage(
                     email_subject,
                     'Hi '+user.username + ', Please the link below to activate your account \n'+activate_url,
-                    'noreply@semycolon.com',
+                    email_id,
                     [email],
                 )
                 email.send(fail_silently=False)
@@ -102,7 +103,7 @@ class RegistrationView(View):
 class VerificationView(View):
     def get(self, request, uidb64, token):
         try:
-            id = force_text(urlsafe_base64_decode(uidb64))
+            id = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=id)
 
             if not account_activation_token.check_token(user, token):
@@ -156,3 +157,9 @@ class LogoutView(View):
         auth.logout(request)
         messages.success(request, 'You have been logged out')
         return redirect('login')
+
+
+
+
+
+

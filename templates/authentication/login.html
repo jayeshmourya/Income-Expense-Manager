@@ -1,8 +1,46 @@
 {% extends 'base_auth.html' %}
 {% load static %}
-
-
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+  <style>
+    
+  
+  body {
+  font-size: 0.875rem;
+  background-color:#495057;
+  background-image: url("{% static 'img/jay1.png' %}");
+}
+h1{
+  color: rgb(250, 245, 245);
+}
+.card-title{
+  color:coral;
+}
+.card{
+background-color:black;
+}
+
+  
+  
+
+  </style>
+</head>
+<body>
+
+  <div>
+    <h1><b> WELCOME</b></h1>
+  </div>
+    
+
+
 
 <div class="row">
   <div class="col-md-4"></div>
@@ -38,10 +76,13 @@
             />
           </div>
           <input type="submit" value="Login" class="btn btn-block btn-primary submit-btn" />
+          <p><a href={% url "reset_password" %}>Forgotten your password?</a></p>
+          <p> If you dont have account pls register here<a href={% url "register" %}>Register</a></p>
+        
         </form>
-
+        
       </div>
-
+      
       </div>
     </div>
   </div>
@@ -51,3 +92,6 @@
 <script src="{% static 'js/register.js' %}"></script>
 
 {% endblock content %}
+  
+</body>
+</html>

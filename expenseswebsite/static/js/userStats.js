@@ -5,6 +5,14 @@ const getHumanMonth = (m) => {
   return month;
 };
 
+// const moment = require('moment');
+// moment.locale('en'); // sets words language (optional if current locale is to be used)
+// moment.months() // returns a list of months in the current locale (January, February, etc.)
+// moment.monthsShort() // returns abbreviated month names (Jan, Feb, etc.)
+
+
+
+
 const updateTopMonthsUI = (topMonth, type) => {
   if (type === "expenses") {
     document.querySelector(".expense-top-month").textContent = getHumanMonth(
